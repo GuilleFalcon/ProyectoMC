@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="max-width:700; margin-top:20px">
+  <div class="card mx-auto" style="width:40rem">
+    <div class="pb-2 pt-2 pr-4 pl-4">
+      <h3 class="text-center">Registrarse</h3>
+
+      <p class="text-secondary">Ya tienes una cuenta? <a href="{{ login_url }}">Inicia sesión</a>.</p>
+
+      <form class="signup" id="signup_form" method="POST" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
