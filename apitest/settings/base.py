@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.home',
+    'apps.graphql',
+    'graphene_django',
 
     'django.contrib.sites',
     'allauth',
@@ -58,6 +62,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'apitest.urls'
 
 AUTHENTICATION_BACKENDS = (
+    'graphql_jwt.backends.JSONWebTokenBackend',
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
@@ -121,6 +126,18 @@ STATICFILES_DIR = (os.path.join(os.path.dirname(BASE_DIR), 'static'),)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
+
+GRAPHQL_JWT = {
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
+    'JWT_REFRESH_EXPIRED_HANDLER': lambda orig_iat, context: False,
+    'JWT_EXPIRATION_DELTA': timedelta(days=1),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+}
+
+GRAPHENE = {
+    'SCHEMA': 'apitest.schema.schema',
+}
 
 SITE_ID = 1
 

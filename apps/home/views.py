@@ -17,6 +17,13 @@ def info(request):
     }
     return render(request, 'info.html', context)
 
+def servidor(request):
+    current_user = request.user
+    context = {
+        "current_user" : current_user
+    }
+    return render(request, 'servidor.html', context)
+
 #Ejemplos de consultas y post
 
 def prender(request):
