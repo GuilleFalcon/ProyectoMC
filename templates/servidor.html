@@ -3,16 +3,24 @@
 {% block content %}
     <div class="col-sm text-center p-4">
       {% if status == "Apagado" %}
-      <button class="btn btn-success btn-lg">
+      <button class="btn btn-success btn-lg" onclick="funcion_prender()">
         Iniciar servidor
       </button>
       {% else %}
-      <button class="btn btn-danger btn-lg">
+      <button class="btn btn-danger btn-lg" onclick="funcion_apagar()">
         Apagar servidor
       </button>
       {% endif %}
     </div>
-    {% if status == "Apagado" %}
+    <script>
+      function funcion_prender() {
+        fetch("http://127.0.0.1:8000/graft/?query=mutation {prender{estado}}", {method:"POST"});
+      }
+      function funcion_apagar() {
+        fetch("http://127.0.0.1:8000/graft/?query=mutation {apagar{estado}}", {method:"POST"});
+      }
+    </script>
+    {% if status == "Encendido" %}
       <script>
 $('body').terminal({
     hello: function(command, term) { 

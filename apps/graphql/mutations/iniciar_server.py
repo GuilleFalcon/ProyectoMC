@@ -10,7 +10,7 @@ class IniciarServer(graphene.Mutation):
 		direccion = '/home/erick/Escritorio/Server/'
 		nombre_jar = 'server-awa.jar'
 		comando = 'screen -dmS "minecraft" java -Xmx1024M -Xms1024M -jar '+nombre_jar+' --nogui'
-		
+
 		#os.chdir se mueve a una dirección espesifica
 		os.chdir(direccion)
 		os.system(comando)
