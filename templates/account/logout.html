@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="max-width:700; margin-top:20px">
+  <div class="card mx-auto" style="width:40rem">
+    <div class="pb-2 pt-2 pr-4 pl-4">
+      <h3 class="text-center">Cerrar Sesión</h3>
+
+      <p class="text-secondary text-center">Estas seguro de que quieres cerrar sesión?</p>
+
+      <form method="POST" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <div class="text-center">
+        <button type="submit" class="btn btn-primary">Confirmar</button>
+        </div>
+      </form>
+      </div>
+  </div>
+</div>
+{% endblock %}

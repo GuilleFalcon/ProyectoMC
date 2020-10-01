@@ -12,6 +12,7 @@ def home(request):
 
 def info(request):
     current_user = request.user
+
     context = {
         "current_user" : current_user
     }
@@ -19,8 +20,13 @@ def info(request):
 
 def servidor(request):
     current_user = request.user
+    resp = requests.get('http://127.0.0.1:8000/graft/?query=query{estado}')
+
+    js = resp.json()
+    status = js["data"]["estado"]
     context = {
-        "current_user" : current_user
+        "current_user" : current_user,
+        "status" : status
     }
     return render(request, 'servidor.html', context)
 
