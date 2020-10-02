@@ -15,21 +15,29 @@
     <script>
       function funcion_prender() {
         fetch("http://127.0.0.1:8000/graft/?query=mutation {prender{estado}}", {method:"POST"});
+        
+        setTimeout(() => {
+          window.location.reload(true);
+        }, 5000);
       }
       function funcion_apagar() {
         fetch("http://127.0.0.1:8000/graft/?query=mutation {apagar{estado}}", {method:"POST"});
+
+        setTimeout(() => {
+          window.location.reload(true);
+        }, 5000);
       }
     </script>
     {% if status == "Encendido" %}
       <script>
-$('body').terminal({
-    hello: function(command, term) { 
-      $.post("http://127.0.0.1:8000/graft/?query=mutation {prender{estado}}")}
-}, {
-    greetings: 'Minecraft Console',
-    height: 300,
-    width:500
-});
-</script>
-{% endif %}
+      $('body').terminal(function(command){ 
+          var url = "http://127.0.0.1:8000/graft/?query=mutation {comando(cmd:\"" + command + "\"){cmd}}"
+          $.post(url);
+      }, {
+        greetings: 'Minecraft Console',
+        height: 300,
+        width:500
+      });
+      </script>
+    {% endif %}
 {% endblock  %}
