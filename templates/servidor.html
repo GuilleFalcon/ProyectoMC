@@ -1,42 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="col-sm text-center p-4">
-      {% if status == "Apagado" %}
-      <button class="btn btn-success btn-lg" onclick="funcion_prender()">
-        Iniciar servidor
-      </button>
-      {% else %}
-      <button class="btn btn-danger btn-lg" onclick="funcion_apagar()">
-        Apagar servidor
-      </button>
-      {% endif %}
+
+    {% if not current_user.is_authenticated %}
+          <div class="jumbotron">
+            <div class="container">
+              <h1 class="display-3 mb-3">Aun no ha iniciado sesión!</h1>
+                <p>Para poder acceder a las funcionalidades, debera iniciar una sesión, en caso de no tener una cuenta, debera comunicarse con los administradores.</p>
+            </div>
+          </div>
+    {% endif %}
+
+ {% if current_user.is_authenticated %}
+    <div class="jumbotron">
+        <div class="container">
+        <h1 class="display-3 mb-3">Minacraft Server</h1>
+        {% if status == "Apagado" %}
+        <p><a class="btn btn-primary btn-lg" href="#" role="button" onclick="funcion_prender()">Iniciar servidor»</a></p>
+        {% else %}
+        <p><a class="btn btn-primary btn-lg" href="#" role="button" onclick="funcion_apagar()">Apagar servidor</a></p>
+        {% endif %}
+      </div>
     </div>
+    <dir id="pantalla"></dir>
+    {% endif %}
+    
     <script>
       function funcion_prender() {
         fetch("http://127.0.0.1:8000/graft/?query=mutation {prender{estado}}", {method:"POST"});
         
         setTimeout(() => {
           window.location.reload(true);
-        }, 5000);
+        }, 3000);
       }
       function funcion_apagar() {
         fetch("http://127.0.0.1:8000/graft/?query=mutation {apagar{estado}}", {method:"POST"});
 
         setTimeout(() => {
           window.location.reload(true);
-        }, 5000);
+        }, 3000);
       }
     </script>
-    {% if status == "Encendido" %}
+
+      {% if status == "Encendido" %}
       <script>
-      $('body').terminal(function(command){ 
+      $('#pantalla').terminal(function(command){ 
           var url = "http://127.0.0.1:8000/graft/?query=mutation {comando(cmd:\"" + command + "\"){cmd}}"
           $.post(url);
+          setTimeout(() => {
+            var consulta = "http://127.0.0.1:8000/graft/?query=query {cmd}"
+            var x = $.get(consulta);
+            this.echo(x);
+            this.echo('Lo intento');
+          }, 3000);
       }, {
         greetings: 'Minecraft Console',
-        height: 300,
-        width:500
+        height: 400,
+        width:600
       });
       </script>
     {% endif %}

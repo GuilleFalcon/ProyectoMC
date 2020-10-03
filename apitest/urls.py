@@ -26,8 +26,7 @@ urlpatterns = [
     path('informacion/', info),
     path('servidor/', servidor),
     #Ejemplos de consultas y post
-    path('estado/', estado),
-    path('prender/', prender),
-    path('apagar/', apagar),
-    path('graft/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    #path('estado/', estado),
+    #path('prender/', prender),
+    #path('apagar/', apagar),
 ]
